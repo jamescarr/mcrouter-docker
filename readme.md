@@ -1,11 +1,12 @@
 # mcrouter
-This is a docker image for facebook's mcrouter, built with blood, sweat
+This is a docker image for [facebook's mcrouter](https://www.facebook.com/Engineering/posts/10152044187717200), built with blood, sweat
 and a glass of scotch. Enjoy. 
 
 ## Usage
 
 For now we simply expose the mcrouter command for your enjoyment by
 directly interacting with it. Not sugar here!
+
 
 ```
 docker run -p 5000:5000 jamescarr/mcrouter:1.0 mcrouter --help
