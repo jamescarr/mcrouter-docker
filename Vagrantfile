@@ -12,5 +12,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.forward_agent = true
 
   config.vm.synced_folder ".", "/home/vagrant/mcrouter"
-
+  
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 4084
+    v.cpus = 2
+  end
 end
