@@ -66,10 +66,21 @@ def get_route(key):
             routes=res.split('\n')
     )
 
-
 @app.route("/config/sources", methods=["GET"])
 def get_config_sources():
     return serve_stat('__mcrouter__.config_sources_info')
+
+@app.route("/stats", methods=["GET"])
+def get_stats():
+    print(create_client().stats())
+
+    res = create_client()._misc_cmd(b'stats\r\n', 'stats', False)
+    print(res)
+    retr_options = {}
+
+    options = res.split("\n")
+
+    return jsonify(options=options)
 
 def serve_stat(key):
     res = create_client().get(key)
