@@ -19,7 +19,9 @@ RUN mkdir -p /etc/mcrouter/mcrotuer.json
 
 VOLUME ["/etc/mcrouter"]
 
-CMD /usr/local/bin/mcrouter --config-file /etc/mcrouter//mcrouter.json
+ADD run.sh /usr/local/bin/run-mcrouter
+
+CMD run-mcrouter
 
 ## Cleanup!
 RUN sudo apt-get remove git unzip wget gcc-4.8 g++-4.8 libboost1.54-dev libboost-thread1.54-dev \
