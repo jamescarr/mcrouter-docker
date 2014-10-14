@@ -4,7 +4,8 @@ RUN apt-get update
 
 RUN apt-get install python-pip python-dev -yq
 
-RUN pip install -r requirements.txt 
+ADD requirements.txt /requirements.txt
+RUN pip install -r /requirements.txt 
 
 VOLUME ['/srv/app']
 

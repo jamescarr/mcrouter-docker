@@ -7,6 +7,19 @@ MCROUTER_ADDR = 'MCROUTER_PORT_5000_TCP_ADDR'
 MCROUTER_PORT = 'MCROUTER_PORT_5000_TCP_PORT'
 app = Flask(__name__)
 
+###
+# Logging
+###
+import logging
+import graypy
+
+log = logging.getLogger('mcrouter-rest-api')
+log.setLevel(logging.INFO)
+
+if env.has_key('GRAYLOG2_HOST'):
+    handler = graypy.GELFHandler(env.get('GRAYLOG2_HOST'), 12201)
+    log.addHandler(handler)
+
 
 client = None
 def create_client():
@@ -23,16 +36,29 @@ def create_client():
     return client
 
 
+
+
 @app.route("/")
 def root():
     return jsonify(version='0.0.0')
 
-@app.route("/config", methods=["PUT"])
+@app.route("/config", methods=["POST"])
 def put_config():
-    f = open('/etc/mcrouter/mcrouter.json', 'w')
+    f = open('/etc/mcrouter/mcrouter.conf', 'r+')
+    
+    old = json.load(f)
+    f.seek(0)
     f.write(request.get_data())
     f.close()
-    return jsonify(message='configuration saved')
+    
+    new = json.load(f)
+
+    log.info("mcrouter configuration changed!", 
+            extra={
+                'new':new,
+                'old':old
+    })
+    return jsonify(message='configuration saved', config=new)
 
 @app.route("/config", methods=["GET"])
 def get_config():
