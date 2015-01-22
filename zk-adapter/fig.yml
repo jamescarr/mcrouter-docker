@@ -1,0 +1,31 @@
+mcrouter:
+  image: jamescarr/mcrouter:1.0.0
+  ports:
+    - "5000"
+  command: mcrouter -f /etc/mcrouter/mcrouter.json -p 5000 --big-value-split-threshold=800000 --send-invalid-route-to-default --num_proxies=$(nproc)
+  volumes:
+    - ./etc:/etc/mcrouter/
+    - /var/run/spool
+
+zk-mcrouter:
+  build: .
+
+zookeeper:
+  image: netflixoss/exhibitor:1.5.2
+  ports:
+    - "2181:2181"
+    - "2888:2888"
+    - "3888:3888"
+    - "8181:8181"
+    - "8080:8080"
+
+memcache0:
+  image: sylvainlasnier/memcached
+  ports:
+    - "11211"
+
+memcache1:
+  image: sylvainlasnier/memcached
+  ports:
+    - "11211"
+
