@@ -1,23 +1,11 @@
- {
+{
    "pools": {
-     "A": {
+     "B": {
        "servers": [
          "memcache0:11211",
-         "memcache1:11211",
-       ]
-     },
-     "B":{
-       "servers": [
-         "memcache2:11211"
+         "memcache1:11211"
        ]
      }
    },
-   "route": {
-     "type": "PrefixSelectorRoute",
-     "policies": {
-       "a": "PoolRoute|A",
-       "b": "PoolRoute|B"
-     },
-     "wildcard": "PoolRoute|A"
-   }
+   "route": "PoolRoute|B"
  }

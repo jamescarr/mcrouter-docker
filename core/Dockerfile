@@ -5,7 +5,7 @@ MAINTAINER James R. Carr <james@zapier.com>
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
-  && apt-get install git wget unzip --no-install-recommends \
+  && apt-get install git wget unzip --no-install-recommends -yq \
   && git clone https://github.com/jamescarr/mcrouter.git /tmp/mcrouter \
   && cd /tmp/mcrouter/mcrouter/scripts \
   && ./install_ubuntu_14.04.sh /usr/local/share \
