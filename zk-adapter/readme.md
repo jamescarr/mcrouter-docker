@@ -6,9 +6,9 @@ it changes.
 ## Environment Variables
 The following environment variables are required:
 
-`ZK_HOSTS` - a string of hosts to connect to
-`ZK_CONFIG_PATH` - the paht in zookeeper to watch for changes
-`ZK_CONFIG_OUTPUT` - the file location to update on path change
+* `ZK_HOSTS` - a string of hosts to connect to
+* `ZK_CONFIG_PATH` - the paht in zookeeper to watch for changes
+* `ZK_CONFIG_OUTPUT` - the file location to update on path change
 
 ## Local Development
 An example is provided using fig to bootstrap zookeeper, mcrouter, 3
