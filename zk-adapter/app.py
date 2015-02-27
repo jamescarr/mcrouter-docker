@@ -2,6 +2,7 @@ from kazoo.client import KazooClient, KazooState
 from kazoo.retry import KazooRetry
 
 from time import sleep
+import json
 import logging
 import settings
 
@@ -12,7 +13,6 @@ log = logging.getLogger('zk.watcher')
 def watcher(hosts, config_path, output):
     zk = KazooClient(connection_retry=settings.ZK_RETRY,
             command_retry=settings.ZK_RETRY,
-            logger=log,
             hosts=hosts,
             read_only=True)
     zk.start()
@@ -21,15 +21,18 @@ def watcher(hosts, config_path, output):
     def watch_node(data, stat):
         if data is not None:
             data = data.decode("utf-8")
+            log.info("Received data: {}".format(data))
             if validate(data):
                 update_config(data, output)
+            else:
+                log.info("data is not valid JSON!")
 
 def validate(data):
     # simple json verifier, could make this clever later
     try:
         json.loads(data)
         return True
-    except Error:
+    except:
         return False
 
 def update_config(data, output):
