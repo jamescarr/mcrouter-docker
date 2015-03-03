@@ -1,32 +1,17 @@
-FROM ubuntu:14.04
+FROM            ubuntu:14.04
 
-MAINTAINER James R. Carr <james@zapier.com>
+MAINTAINER      mcrouter <mcrouter@fb.com>
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV             MCROUTER_DIR            /usr/local/mcrouter
+ENV             MCROUTER_REPO           https://github.com/facebook/mcrouter.git
+ENV             DEBIAN_FRONTEND         noninteractive
 
-RUN apt-get update \
-  && apt-get install git wget unzip --no-install-recommends -yq \
-  && git clone https://github.com/jamescarr/mcrouter.git /tmp/mcrouter \
-  && cd /tmp/mcrouter/mcrouter/scripts \
-  && ./install_ubuntu_14.04.sh /usr/local/share \
-  && apt-get remove --purge unzip wget gcc-4.8 g++-4.8 libboost1.54-dev libboost-thread1.54-dev \
-    libboost-filesystem1.54-dev libboost-system1.54-dev libboost-regex1.54-dev \
-    libboost-python1.54-dev libboost-context1.54-dev ragel autoconf unzip \
-    libsasl2-dev git libtool python-dev cmake libssl-dev libcap-dev libevent-dev \
-    libgtest-dev libsnappy-dev scons flex bison libkrb5-dev binutils-dev make \
-    libnuma-dev -yq \
-  && rm -rf /var/lib/apt/lists
-  && rm -rf /tmp/*
+RUN             apt-get update && apt-get install -y git && \
+                mkdir -p $MCROUTER_DIR/repo && \
+                cd $MCROUTER_DIR/repo && git clone $MCROUTER_REPO && \
+                cd $MCROUTER_DIR/repo/mcrouter/mcrouter/scripts && \
+                ./install_ubuntu_14.04.sh $MCROUTER_DIR && \
+                ./clean_ubuntu_14.04.sh $MCROUTER_DIR && rm -rf $MCROUTER_DIR/repo && \
+                ln -s $MCROUTER_DIR/install/bin/mcrouter /usr/local/bin/mcrouter
 
-RUN ln -s /usr/local/share/install/bin/mcrouter /usr/local/bin/mcrouter
-
-RUN mkdir -p /etc/mcrouter/mcrotuer.json
-
-VOLUME ["/etc/mcrouter"]
-
-ADD run.sh /usr/local/bin/run-mcrouter
-
-CMD run-mcrouter
-
-
-ENV DEBIAN_FRONTEND newt
+ENV             DEBIAN_FRONTEND newt
