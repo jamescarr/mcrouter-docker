@@ -1,1 +1,0 @@
-{"pools": {"A": {"servers": ["memcache0:11211", "memcache1:11211"]}, "B": {"servers": ["memcache2:11211"]}}, "routes": [{"cold": "PoolRoute|B", "warm": "PoolRoute|A", "type": "WarmUpRoute"}]}
